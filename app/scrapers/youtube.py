@@ -98,3 +98,6 @@ if __name__ == "__main__":
     #videos = scraper.get_latest_videos(channel_id="UCn8ujwUInbJkBhffxqAPBVQ", hours=400)
     #print(videos)
     channel_videos: List[ChannelVideo] = scraper.scrape_channel("UCn8ujwUInbJkBhffxqAPBVQ", hours=300)
+
+    #use channel id to get all channels videos and then get the video id, from the video id the transcript can 
+    #be obtained.
