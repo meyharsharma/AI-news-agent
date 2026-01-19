@@ -3,14 +3,14 @@ from .config import YOUTUBE_CHANNELS
 from .scrapers.youtube import YouTubeScraper, ChannelVideo
 from .scrapers.openai import OpenAIScraper, OpenAIArticle
 from .scrapers.anthropic import AnthropicScraper, AnthropicArticle
-#from .database.repository import Repository
+from .database.repository import Repository
 
 
 def run_scrapers(hours: int = 24) -> dict:
     youtube_scraper = YouTubeScraper()
     openai_scraper = OpenAIScraper()
     anthropic_scraper = AnthropicScraper()
-    #repo = Repository()
+    repo = Repository()
     
     youtube_videos = []
     video_dicts = []
@@ -33,8 +33,8 @@ def run_scrapers(hours: int = 24) -> dict:
     openai_articles = openai_scraper.get_articles(hours=hours)
     anthropic_articles = anthropic_scraper.get_articles(hours=hours)
     
-    #if video_dicts:
-        #repo.bulk_create_youtube_videos(video_dicts)
+    if video_dicts:
+        repo.bulk_create_youtube_videos(video_dicts)
     
     if openai_articles:
         article_dicts = [
@@ -48,7 +48,7 @@ def run_scrapers(hours: int = 24) -> dict:
             }
             for a in openai_articles
         ]
-        #repo.bulk_create_openai_articles(article_dicts)
+        repo.bulk_create_openai_articles(article_dicts)
     
     if anthropic_articles:
         article_dicts = [
@@ -62,7 +62,7 @@ def run_scrapers(hours: int = 24) -> dict:
             }
             for a in anthropic_articles
         ]
-        #repo.bulk_create_anthropic_articles(article_dicts)
+        repo.bulk_create_anthropic_articles(article_dicts)
     
     return {
         "youtube": youtube_videos,
@@ -72,7 +72,7 @@ def run_scrapers(hours: int = 24) -> dict:
 
 
 if __name__ == "__main__":
-    results = run_scrapers(hours=72)
+    results = run_scrapers(hours=100)
     print(f"YouTube videos: {len(results['youtube'])}")
     print(f"OpenAI articles: {len(results['openai'])}")
     print(f"Anthropic articles: {len(results['anthropic'])}")
